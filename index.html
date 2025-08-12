@@ -369,7 +369,7 @@
 
                     <div class="form-container" data-aos="fade-left" data-aos-duration="1000">
                         <h2>Inicie sua Solicitação</h2>
-                        <form action="https://formspree.io/f/xnnzwzyl" method="POST">
+                        <form id="contact-form" action="https://formspree.io/f/xnnzwzyl" method="POST">
                             <div class="form-group">
                                 <label for="nome">Nome Completo</label>
                                 <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
@@ -384,7 +384,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="regiao">Região onde mora</label>
-                                <input type="text" id="regiao" name="região" placeholder="Ex: Zona Sul, São Paulo" required>
+                                <input type="text" id="regiao" name="região" placeholder="Ex: Guarulhos, Osasco" required>
                             </div>
                              <div class="form-group">
                                 <label for="dias">Quantidade de dias</label>
@@ -395,11 +395,11 @@
                                 <label>Formato do Atestado</label>
                                 <label class="radio-option">
                                     <input type="radio" name="formato_atestado" value="Apenas Foto" checked required>
-                                    <span>Apenas a foto (digital)</span>
+                                    <span>Apenas a foto (Não precisa imprimir)</span>
                                 </label>
                                 <label class="radio-option">
                                     <input type="radio" name="formato_atestado" value="Papel para Imprimir" required>
-                                    <span>Papel em mãos (para imprimir)</span>
+                                    <span>Papel em mãos (Para você imprimir)</span>
                                 </label>
                             </div>
 
@@ -439,34 +439,116 @@
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init({
-          once: true,
-          duration: 1000,
-      });
+<script>
+    // 1. LÓGICA EXISTENTE (INTOCADA)
+    // ===================================
+    AOS.init({
+        once: true,
+        duration: 1000,
+    });
 
-      // --- SCRIPT PARA CÁLCULO DE VALOR ---
-      const diasInput = document.getElementById('dias');
-      const valorDisplay = document.getElementById('valor-calculado');
-      const valorFinalInput = document.getElementById('valor-final');
+    const diasInput = document.getElementById('dias');
+    const valorDisplay = document.getElementById('valor-calculado');
+    const valorFinalInput = document.getElementById('valor-final');
 
-      diasInput.addEventListener('input', function() {
-          const dias = parseInt(this.value);
-          let valor = 0;
+    diasInput.addEventListener('input', function() {
+        const dias = parseInt(this.value);
+        let valor = 0;
+        if (dias && dias > 0) {
+            valor = (dias === 1) ? 20 : 20 + (dias - 1) * 15;
+        }
+        const valorFormatado = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        valorDisplay.textContent = valorFormatado;
+        valorFinalInput.value = valorFormatado;
+    });
 
-          if (dias && dias > 0) {
-              if (dias === 1) {
-                  valor = 20;
-              } else {
-                  valor = 20 + (dias - 1) * 15;
-              }
-          }
-          
-          const valorFormatado = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-          valorDisplay.textContent = valorFormatado;
-          valorFinalInput.value = valorFormatado;
-      });
-    </script>
+
+    // 2. NOVA LÓGICA DE FORMULÁRIO (ADAPTADA DO EXEMPLO)
+    // =======================================================
+    const form = document.getElementById('contact-form');
+    const popupOverlay = document.getElementById('popup-overlay');
+    const popupContent = document.getElementById('popup-content');
+    const closePopupButton = document.getElementById('close-popup-btn');
+
+    // Função para fechar o pop-up e resetar o estado
+    const closeAndResetPopup = () => {
+        popupContent.style.opacity = '0';
+        popupContent.style.transform = 'scale(0.9)';
+        
+        setTimeout(() => {
+            popupOverlay.style.display = 'none';
+            // Garante que o formulário reapareça para um novo envio
+            // e a mensagem de sucesso suma depois que o pop-up fechar.
+            form.style.display = 'block'; 
+            popupContent.querySelector('h2').style.display = 'block';
+            popupContent.querySelector('p').style.display = 'block';
+            popupContent.querySelector('.checkmark').style.display = 'none';
+        }, 400); // Espera a animação de saída
+    };
+
+    closePopupButton.addEventListener('click', closeAndResetPopup);
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Impede o envio padrão
+
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('.submit-btn');
+        const originalButtonText = submitButton.textContent;
+
+        // Desabilita o botão para evitar envios múltiplos
+        submitButton.textContent = 'Enviando...';
+        submitButton.disabled = true;
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                // SUCESSO!
+                popupOverlay.style.display = 'flex';
+
+                // Esconde o formulário e mostra a animação de sucesso
+                form.style.display = 'none';
+                popupContent.querySelector('.checkmark').style.display = 'block';
+
+                // Força o pop-up a aparecer com a animação
+                setTimeout(() => {
+                    popupContent.style.opacity = '1';
+                    popupContent.style.transform = 'scale(1)';
+                }, 10);
+                
+                form.reset(); // Limpa os dados do formulário
+                valorDisplay.textContent = 'R$ 0,00'; // Reseta o valor
+                valorFinalInput.value = '';
+
+            } else {
+                // ERRO do servidor (Formspree rejeitou)
+                response.json().then(data => {
+                    if (Object.hasOwn(data, 'errors')) {
+                        alert(data["errors"].map(error => error["message"]).join(", "));
+                    } else {
+                        alert('Houve um problema no servidor. Tente novamente.');
+                    }
+                });
+            }
+        } catch (error) {
+            // ERRO de conexão
+            alert('Erro de conexão. Verifique sua internet e tente novamente.');
+        } finally {
+            // Reabilita o botão
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+        }
+    });
+
+    // Modificação final: Esconder a animação de checkmark por padrão
+    // para que ela só apareça após o envio bem-sucedido.
+    document.querySelector('.checkmark').style.display = 'none';
+
+</script>
 
 </body>
 </html>
