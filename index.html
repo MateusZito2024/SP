@@ -20,7 +20,6 @@
             --subtle-text-color: #a0a0a0;
             --white: #ffffff;
             --success-color: #28a745;
-            --error-color: #dc3545;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
@@ -67,6 +66,7 @@
             line-height: 1.2;
         }
         
+        /* Estilo e Posição do Manifesto Revisados */
         .manifesto-text {
             font-weight: 300;
             font-style: italic;
@@ -107,7 +107,6 @@
         }
 
         .form-group input[type="text"],
-        .form-group input[type="email"],
         .form-group input[type="tel"],
         .form-group input[type="number"] {
             width: 100%;
@@ -120,14 +119,7 @@
             transition: border-color 0.3s;
             box-sizing: border-box;
         }
-        
-        /* Validação Visual dos Campos */
-        .form-group input:invalid:not(:placeholder-shown) {
-            border-color: var(--error-color);
-        }
-        .form-group input:valid:not(:placeholder-shown) {
-            border-color: var(--success-color);
-        }
+
         .form-group input:focus {
             outline: none;
             border-color: var(--primary-color);
@@ -137,6 +129,7 @@
             display: block;
             margin-bottom: 12px;
         }
+
         .radio-option {
             display: flex;
             align-items: center;
@@ -148,9 +141,11 @@
             border: 1px solid #333;
             transition: border-color 0.3s;
         }
+        
         .radio-option:hover {
              border-color: #555;
         }
+
         .radio-option input[type="radio"] {
             margin-right: 12px;
             accent-color: var(--primary-color);
@@ -164,11 +159,35 @@
             border: 1px dashed var(--primary-color);
             border-radius: 8px;
         }
-        .valor-container p { margin: 0; font-size: 1rem; color: var(--subtle-text-color); }
-        .valor-container #valor-calculado { font-size: 2rem; font-weight: 700; color: var(--success-color); margin-top: 5px; }
 
-        .sample-note { font-size: 0.9rem; color: var(--subtle-text-color); text-align: center; margin-top: 15px; font-style: italic; }
-        .form-info { font-size: 0.9rem; color: var(--subtle-text-color); text-align: center; margin-top: 20px; }
+        .valor-container p {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--subtle-text-color);
+        }
+        
+        .valor-container #valor-calculado {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-top: 5px;
+        }
+
+        .sample-note {
+            font-size: 0.9rem;
+            color: var(--subtle-text-color);
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        /* Frase sobre o WhatsApp Reintegrada */
+        .form-info {
+            font-size: 0.9rem;
+            color: var(--subtle-text-color);
+            text-align: center;
+            margin-top: 20px;
+        }
 
         .submit-btn {
             width: 100%;
@@ -183,72 +202,51 @@
             transition: background-color 0.3s, transform 0.2s;
             margin-top: 20px;
         }
-        .submit-btn:hover { background-color: #3a80d2; transform: translateY(-2px); }
+
+        .submit-btn:hover {
+            background-color: #3a80d2;
+            transform: translateY(-2px);
+        }
         
-        .image-section img { max-width: 100%; height: auto; display: block; margin: 40px auto 0; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 40px auto 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
 
-        .footer { background-color: var(--surface-color); color: var(--subtle-text-color); text-align: center; padding: 20px 0; margin-top: 60px; border-top: 1px solid #2a2a2a; }
-
-        /* --- Estilo da Tela de Sucesso Fantástica --- */
-        #success-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(18, 18, 18, 0.95);
-            display: none; /* Inicia oculto */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        #success-overlay.visible {
-            display: flex;
-            opacity: 1;
-        }
-        #success-message {
-            text-align: center;
-            padding: 50px;
-            border-radius: 15px;
-            transform: scale(0.9);
-            transition: transform 0.5s ease;
-        }
-        #success-overlay.visible #success-message {
-            transform: scale(1);
-        }
-        #success-message h2 {
-            font-family: 'Lora', serif;
-            font-size: 3rem;
-            margin: 0;
-            background: linear-gradient(90deg, #a7c8ff, #ffffff, #4a90e2, #a7c8ff);
-            background-size: 300% auto;
-            color: #000;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 4s linear infinite;
-        }
-        #success-message p {
-            font-size: 1.2rem;
+        .footer {
+            background-color: var(--surface-color);
             color: var(--subtle-text-color);
-            margin-top: 15px;
-        }
-        @keyframes shimmer {
-            to { background-position: -300% center; }
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 60px;
+            border-top: 1px solid #2a2a2a;
         }
 
         /* Responsive Design */
         @media (max-width: 992px) {
-            .hero-content { flex-direction: column; text-align: center; }
-            .hero-text h1 { font-size: 2.8rem; }
-            .manifesto-text { text-align: left; }
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            .manifesto-text {
+                text-align: left;
+            }
         }
+        
         @media (max-width: 480px) {
-             .hero-text h1 { font-size: 2.2rem; }
-             .form-container { padding: 25px; }
-             #success-message h2 { font-size: 2.5rem; }
+             .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            .form-container {
+                padding: 25px;
+            }
         }
     </style>
 </head>
@@ -260,9 +258,13 @@
                 <div class="hero-content">
                     <div class="hero-text" data-aos="fade-right" data-aos-duration="1000">
                         <h1>Atestado SP</h1>
+                        
                         <div class="manifesto-text">
-                            <p>Este serviço é um ato de legítima defesa para trabalhadores e estudantes esgotados pela hostilidade do sistema. Falamos da humilhação de ser transportado sem o mínimo de respeito, da pressão para executar o trabalho de vários sob o salário de um, e da insensibilidade de chefes e professores que tratam imprevistos pessoais como insubordinação. O que oferecemos não é apenas uma pausa: é o direito de se defender.</p>
+                            <p>
+                                Este serviço é um ato de legítima defesa para trabalhadores e estudantes esgotados pela hostilidade do sistema. Falamos da humilhação de ser transportado sem o mínimo de respeito, da pressão para executar o trabalho de vários sob o salário de um, e da insensibilidade de chefes e professores que tratam imprevistos pessoais como insubordinação. O que oferecemos não é apenas uma pausa: é o direito de se defender.
+                            </p>
                         </div>
+
                         <div class="image-section" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
                            <img src="https://i.imgur.com/5sZOAEl.png" alt="Médico especialista online">
                         </div>
@@ -270,14 +272,10 @@
 
                     <div class="form-container" data-aos="fade-left" data-aos-duration="1000">
                         <h2>Inicie sua Solicitação</h2>
-                        <form id="contact-form" action="https://formspree.io/f/xnnzwzyl" method="POST">
+                        <form action="https://formspree.io/f/xnnzwzyl" method="POST">
                             <div class="form-group">
                                 <label for="nome">Nome Completo</label>
-                                <input type="text" id="nome" name="nome" placeholder="Apenas letras e espaços" pattern="[a-zA-Z\u00C0-\u017F\s]+" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Seu E-mail</label>
-                                <input type="email" id="email" name="email" placeholder="nome@exemplo.com" required>
+                                <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
                             </div>
                             <div class="form-group">
                                 <label for="whatsapp">WhatsApp</label>
@@ -285,12 +283,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="regiao">Região onde mora</label>
-                                <input type="text" id="regiao" name="regiao" placeholder="Ex: Zona Sul, São Paulo" required>
+                                <input type="text" id="regiao" name="região" placeholder="Ex: Zona Sul, São Paulo" required>
                             </div>
                              <div class="form-group">
                                 <label for="dias">Quantidade de dias</label>
                                 <input type="number" id="dias" name="dias" min="1" placeholder="Ex: 2" required>
                             </div>
+
                             <div class="form-group radio-group">
                                 <label>Formato do Atestado</label>
                                 <label class="radio-option">
@@ -304,6 +303,7 @@
                             </div>
 
                             <input type="hidden" id="valor-final" name="valor_a_pagar">
+
                             <div class="valor-container">
                                <p>Valor Total:</p>
                                <div id="valor-calculado">R$ 0,00</div>
@@ -326,88 +326,35 @@
         </div>
     </footer>
 
-    <div id="success-overlay">
-        <div id="success-message">
-            <h2>Enviado com Sucesso!</h2>
-            <p>Sua solicitação foi recebida. Entraremos em contato em breve pelo WhatsApp.</p>
-        </div>
-    </div>
-
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init({
-        once: true,
-        duration: 1000,
-    });
+          once: true,
+          duration: 1000,
+      });
 
-    // Bloco 2: Cálculo de Valor (sem alterações)
-    const diasInput = document.getElementById('dias');
-    const valorDisplay = document.getElementById('valor-calculado');
-    const valorFinalInput = document.getElementById('valor-final');
+      // --- SCRIPT PARA CÁLCULO DE VALOR ---
+      const diasInput = document.getElementById('dias');
+      const valorDisplay = document.getElementById('valor-calculado');
+      const valorFinalInput = document.getElementById('valor-final');
 
-    diasInput.addEventListener('input', function() {
-        const dias = parseInt(this.value);
-        let valor = 0;
-        if (dias && dias > 0) {
-            valor = (dias === 1) ? 20 : (20 + (dias - 1) * 15);
-        }
-        const valorFormatado = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        valorDisplay.textContent = valorFormatado;
-        valorFinalInput.value = valorFormatado;
-    });
+      diasInput.addEventListener('input', function() {
+          const dias = parseInt(this.value);
+          let valor = 0;
 
-    // --- Bloco 3: ENVIO DO FORMULÁRIO COM AJAX (VERSÃO CORRIGIDA E MELHORADA) ---
-    const form = document.getElementById('contact-form');
-    const successOverlay = document.getElementById('success-overlay');
-    const submitButton = form.querySelector('.submit-btn'); // Seleciona o botão de envio
-
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Impede o envio padrão que recarrega a página
-
-        const formData = new FormData(form);
-
-        // Feedback visual para o usuário: desabilita o botão
-        submitButton.disabled = true;
-        submitButton.textContent = 'Enviando...';
-
-        fetch(form.action, {
-            method: form.method,
-            body: formData,
-            headers: {
-                'Accept': 'application/json' // ESSA LINHA É A CHAVE! Ela diz ao Formspree para não redirecionar.
-            }
-        }).then(response => {
-            if (response.ok) {
-                // SUCESSO! A resposta do servidor foi positiva.
-                successOverlay.classList.add('visible'); // Mostra sua tela de sucesso
-                form.reset(); // Limpa o formulário
-                valorDisplay.textContent = 'R$ 0,00'; // Limpa o valor calculado
-
-                // Esconde a tela de sucesso e zera tudo após 4 segundos
-                setTimeout(() => {
-                    successOverlay.classList.remove('visible');
-                }, 4000);
-            } else {
-                // ERRO: O Formspree retornou um erro (ex: validação falhou).
-                response.json().then(data => {
-                    if (Object.hasOwn(data, 'errors')) {
-                        alert(data["errors"].map(error => error["message"]).join(", "));
-                    } else {
-                        alert('Oops! Ocorreu um problema ao enviar seu formulário.');
-                    }
-                });
-            }
-        }).catch(error => {
-            // ERRO DE REDE: O usuário está sem internet, por exemplo.
-            alert('Oops! Ocorreu um problema de conexão. Tente novamente.');
-        }).finally(() => {
-            // Este bloco sempre executa, seja em caso de sucesso ou erro.
-            // Reabilita o botão para que o usuário possa tentar novamente.
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Solicitação';
-        });
-    });
-</script>
+          if (dias && dias > 0) {
+              if (dias === 1) {
+                  valor = 20;
+              } else {
+                  valor = 20 + (dias - 1) * 15;
+              }
+          }
+          
+          const valorFormatado = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+          valorDisplay.textContent = valorFormatado;
+          valorFinalInput.value = valorFormatado;
+      });
+    </script>
 
 </body>
 </html>
